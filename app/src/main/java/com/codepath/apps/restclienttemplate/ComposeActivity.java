@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.wafflecopter.charcounttextview.CharCountTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,18 @@ public class ComposeActivity extends AppCompatActivity {
         // set variables
         edTweet = (EditText) findViewById(R.id.edTweet);
         buttonAdd = (Button) findViewById(R.id.buttonAdd);
+        // variable for character count
+        CharCountTextView charCountTextView = (CharCountTextView) findViewById(R.id.tvTextCounter);
+
+        // count characters functionality
+        charCountTextView.setEditText(edTweet);
+        charCountTextView.setCharCountChangedListener(new CharCountTextView.CharCountChangedListener() {
+            @Override
+            public void onCountChanged(int i, boolean b) {
+
+            }
+        });
+
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,8 +60,8 @@ public class ComposeActivity extends AppCompatActivity {
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
 
-                        // create a new tweet
                         try {
+                            // create a new tweet
                             Tweet tweet = Tweet.fromJSON(response);
                             //Send back the new tweet as a result back to the original activity
                             Intent i = new Intent();
